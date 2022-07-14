@@ -33,7 +33,8 @@ if(v_vid){
 	v_play.addEventListener('click', e => {_play();}); //play
 	v_hd.addEventListener('click', e => {_fullhd();}); //full screen
 	v_vid.addEventListener('timeupdate',videoProgress);
-	v_gres.addEventListener('click',videoChangeTime);
+	//v_gres.addEventListener('click',videoChangeTime);
+	v_fot.addEventListener('click',videoChangeTime);
 	v_pols.addEventListener('mousedown',e => {volumeVisChange(e);});//slide volume on
 	document.addEventListener('mouseup',e => {volumeVisFix(e);});//slide volume off
 	v_pc.addEventListener('click',e => {volumeVisChange(e);});//karetka on
@@ -56,7 +57,7 @@ function _hover(){ //отображаем худ плеера
 	v_hu.style.display = 'block';
 }
 function _dehover(){//скрываем худ плеера через 2 секунды
-	//setTimeout(function back(){v_hu.style.display = 'none';}, 2000);
+	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000);
 }
 function _volplus(){ //отображаем худ плеера
 	v_olus.style.display = 'block';
@@ -154,8 +155,10 @@ function videoProgress(){ //Отображаем время воспроизве
 	v_cime.innerHTML = videoTime(v_vid.currentTime);
 }
 function videoChangeTime(e){ //Перематываем
-	var mouseX = Math.floor(e.pageX - v_gres.offsetLeft);
-	var progress = mouseX / (v_gres.offsetWidth / 100);
+	//var mouseX = Math.floor(e.pageX - v_gres.offsetLeft);
+	//var progress = mouseX / (v_gres.offsetWidth / 100);
+	var mouseX = Math.floor(e.pageX - v_pc.offsetLeft);
+	var progress = mouseX / ((v_fot.offsetWidth-12) / 100);
 	v_vid.currentTime = v_vid.duration * (progress / 100);
 }
 function videoTime(time) { //Рассчитываем время в секундах и минутах
