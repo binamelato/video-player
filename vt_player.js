@@ -13,11 +13,10 @@ v_hu = document.querySelector("#v_hud"); //hud
 v_play = document.querySelector("#pl_ps"); //button play
 v_olum = document.querySelector("#pl_voi"); //button volume
 v_olus = document.querySelector("#pl_voj"); //dop forma volume
-v_oluk = document.querySelector("#pl_vok"); //input volume
-v_gres = document.querySelector("#pl_prog"); //progress bar
 v_hd = document.querySelector("#tm_full"); //full window
 v_time = document.querySelector(".durationTime"); //time video
 v_cime = document.querySelector(".currTime"); //time video
+v_oluk = document.querySelector("#pl_vok"); //line volume controls
 v_pols = document.querySelector("#carage"); //каретка звука
 v_fot = document.querySelector("#pr_carfo"); //контейнер прогресс бара
 v_pc = document.querySelector("#pr_carvi"); //каретка прогресс бара
@@ -33,11 +32,11 @@ if(v_vid){
 	v_play.addEventListener('click', e => {_play();}); //play
 	v_hd.addEventListener('click', e => {_fullhd();}); //full screen
 	v_vid.addEventListener('timeupdate',videoProgress);
-	v_gres.addEventListener('click',videoChangeTime);
+	v_fot.addEventListener('click',videoChangeTime);
+	v_oluk.addEventListener('click', e => {videoChangeVolum(e);});//change vol by click
 	v_pols.addEventListener('mousedown',e => {volumeVisChange(e);});//slide volume on
 	document.addEventListener('mouseup',e => {volumeVisFix(e);});//slide volume off
 	v_pc.addEventListener('click',e => {volumeVisChange(e);});//karetka on
-	v_fot.addEventListener('mousemove',e => {volumeVisProgMove(e);});//form karetka video
 }
 
 
@@ -49,14 +48,14 @@ function _player(){//постсроение плеера
 	v_cont.setAttribute("style", "width:100%;");
 	v_cont.setAttribute("class", "vplayer");
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
-	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' style='padding:0px;margin:0px;margin-top:-80px;position:absolute;display:none;width:700px;'><div style='margin:0px 10px;'><div id='pr_bar' style='height:30px;width:100%;'><div style='padding:6px 6px;'><progress id='pl_prog' style='width:100%;display:none;' value='0' max='100'></progress><div style='padding-top:6px;position:relative;'><div style='width:100%;height:2px;background-color:#fff;' id='pr_carfo'></div><div style='width:12px;height:12px;background-color:#fff;border-radius:16px;margin:-7px 0px;left:0px;position:absolute;' id='pr_carvi'></div></div></div></div><div style='padding:0px;margin:0px;display:flex;height:30px;width:100%;flex-wrap:wrap;'><div style='width:50%;display:flex;justify-content:flex-start;'><div id='pl_ps' style='height:30px;width:30px;'><img style='width:25px;padding:2px 4px;' src='ico/play1.png'></div><div id='pl_voi' style='height:30px;width:40px;'><img style='width:25px;padding:3px 8px;' src='ico/volume1.png'></div><div id='pl_voj' style='height:30px;width:110px;display:none;padding:10px;'><input style='width:100px;margin:7px 0px;display:none;' type='range' value='100' max='100' id='pl_vok'><div style='position:relative;margin:4px 0px;'><div style='height:2px;width:100px;background-color:#fff;'></div><div style='width:12px;height:12px;background-color:#fff;position:absolute;margin:-7px 0px;border-radius:9px;left:88px;' id='carage'></div></div></div><div id='tm_code' style='height:30px;width:110px;'><div style='padding:6px 4px;color:#fff;font-weight:600;'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div style='width:50%;display:flex;justify-content:flex-end;'><div id='tm_full' style='height:30px;width:45px;'><div><img style='width:25px;padding:3px 10px;' src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
+	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' style='padding:0px;margin:0px;margin-top:-80px;position:absolute;display:none;width:700px;'><div style='margin:0px 10px;'><div id='pr_bar' style='height:30px;width:100%;'><div style='padding:6px 6px;'><div style='padding-top:6px;position:relative;'><div style='width:100%;height:2px;background:linear-gradient(to right, red 1%, white 0%);' id='pr_carfo'></div><div style='width:12px;height:12px;background-color:#fff;border-radius:16px;margin:-7px 0px;left:0px;position:absolute;' id='pr_carvi'></div></div></div></div><div style='padding:0px;margin:0px;display:flex;height:30px;width:100%;flex-wrap:wrap;'><div style='width:50%;display:flex;justify-content:flex-start;'><div id='pl_ps' style='height:30px;width:30px;'><img style='width:25px;padding:2px 4px;' src='ico/play1.png'></div><div id='pl_voi' style='height:30px;width:40px;'><img style='width:25px;padding:3px 8px;' src='ico/volume1.png'></div><div id='pl_voj' style='height:30px;width:110px;display:none;padding:10px;'><div style='position:relative;margin:4px 0px;'><div style='height:2px;width:100px;background-color:#fff;' id='pl_vok'></div><div style='width:12px;height:12px;background-color:#fff;position:absolute;margin:-7px 0px;border-radius:9px;left:88px;' id='carage'></div></div></div><div id='tm_code' style='height:30px;width:110px;'><div style='padding:6px 4px;color:#fff;font-weight:600;'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div style='width:50%;display:flex;justify-content:flex-end;'><div id='tm_full' style='height:30px;width:45px;'><div><img style='width:25px;padding:3px 10px;' src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
 }
 
 function _hover(){ //отображаем худ плеера
 	v_hu.style.display = 'block';
 }
-function _dehover(){//скрываем худ плеера через 2 секунды
-	//setTimeout(function back(){v_hu.style.display = 'none';}, 2000);
+function _dehover(){//скрываем худ плеера через 4 секунды
+	setTimeout(function back(){v_hu.style.display = 'none';}, 4000);
 }
 function _volplus(){ //отображаем худ плеера
 	v_olus.style.display = 'block';
@@ -65,8 +64,6 @@ function _volmin(){//скрываем худ плеера через 2 секу�
 	setTimeout(function func(){v_olus.style.display = 'none';}, 200);
 }
 function _play(){//
-	//alert('Play bitch!');
-	//меняем иконку на паузу
 	cn_pl = v_play.classList.toggle('play');
 	if(cn_pl){
 		var check_im = v_play.querySelector('img').setAttribute('src','ico/pause1.png');
@@ -80,8 +77,6 @@ function _play(){//
 	}
 }
 function _fullhd(){//
-	//alert('Full Screen bitch!');
-	//меняем иконку на уменьшение экрана
 	cn_fm = v_hd.classList.toggle('full');
 	if(cn_fm){
 		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen2.png');
@@ -89,6 +84,8 @@ function _fullhd(){//
 		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen1.png');
 	}
 	//разворачиваем экран на весь экран
+	
+	
 }
 function volumeVisMove(e){
 	if(!vi_drag){
@@ -105,35 +102,12 @@ function volumeVisMove(e){
 		if(nowCord>=104 && nowCord<=192){
 			bat = 88 - (cordx - nowCord);
 			v_pols.style.left = bat+'px';
-			//console.log(bat);
 			//меняем звук
 			valvol = (bat*100)/88;
 			var volume = Math.round(valvol) / 100;
 			v_vid.volume = volume;
 			//console.log(volume);
 		}
-	}
-}
-function volumeVisProgMove(e){//перематываем клип
-	if(!vi_drag){
-		return;
-	}else{
-		//prCordX = e.pageX; //32 ; 24-36px
-		//console.log(prCordX); min=0, max=656
-		/*
-		corfx = 0;
-		prCordX = e.pageX;
-		if(prCordX>=0 && prCordX<=656){
-			bat = 656 - (corfx - prCordX);
-			v_pols.style.left = bat+'px';
-			//console.log(bat);
-			//меняем звук
-			valvol = (bat*100)/88;
-			var volume = Math.round(valvol) / 100;
-			v_vid.volume = volume;
-			//console.log(volume);
-		}
-		*/
 	}
 }
 function volumeVisChange(e){//начинаем двигать ползунок
@@ -142,21 +116,33 @@ function volumeVisChange(e){//начинаем двигать ползунок
 function volumeVisFix(e){ //заканчиваем двигать ползунок
 	vi_drag = false;
 }
-
 function videoProgress(){ //Отображаем время воспроизведения
-	progress = (Math.floor(v_vid.currentTime) / (Math.floor(v_vid.duration) / 100));
-	console.log(v_vid.duration);
-	console.log(v_vid.currentTime);
-	v_pc.style.left = (v_vid.currentTime*656)/v_vid.duration +'px'; //
+	var tempVal = (v_vid.currentTime*656)/v_vid.duration;
+	v_pc.style.left = tempVal +'px'; //
+	var progba = ((tempVal.toFixed(1) + 6)*100/656).toFixed(1);
 	//надо добавить if чтобы не выходила каретка за пределы линии и плюс в конце, если достигнут конец, то останавливать видео и менять иконку и состояние плеера на паузу
-	// убрать прогресс бар
-	v_gres.value = progress;//перепосчитать
 	v_cime.innerHTML = videoTime(v_vid.currentTime);
+	v_fot.style.background = 'linear-gradient(to right, red '+progba+'%, white 0%)';
 }
 function videoChangeTime(e){ //Перематываем
-	var mouseX = Math.floor(e.pageX - v_gres.offsetLeft);
-	var progress = mouseX / (v_gres.offsetWidth / 100);
-	v_vid.currentTime = v_vid.duration * (progress / 100);
+	var mouseX = Math.floor(e.pageX - 30);
+	v_vid.currentTime = v_vid.duration * (mouseX / 656);
+	var progbe = ((mouseX+6)*100) / 656;
+	var dn_pl = v_play.classList.contains('play');
+	if(!dn_pl){
+		v_play.classList.add('play');
+	}
+	var check_im = v_play.querySelector('img').setAttribute('src','ico/pause1.png');
+	v_fot.style.background = 'linear-gradient(to right, red '+progbe.toFixed(1)+'%, white 0%)';
+	v_vid.play();
+}
+function videoChangeVolum(e){ //Перематываем звук
+	var mouseDX = Math.floor(e.pageX - 98);
+	vavol = (mouseDX*100)/88;
+	var volume = Math.round(vavol) / 100;
+	v_vid.volume = volume;
+	//cдвинуть карретку
+	v_pols.style.left = (mouseDX-6)+'px';
 }
 function videoTime(time) { //Рассчитываем время в секундах и минутах
 	time = Math.floor(time);

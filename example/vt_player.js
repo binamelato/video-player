@@ -55,7 +55,7 @@ function _hover(){ //отображаем худ плеера
 	v_hu.style.display = 'block';
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
-	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000);
+	setTimeout(function back(){v_hu.style.display = 'none';}, 4000);
 }
 function _volplus(){ //отображаем худ плеера
 	v_olus.style.display = 'block';
