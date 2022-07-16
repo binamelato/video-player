@@ -21,6 +21,7 @@ v_pols = document.querySelector("#carage"); //каретка звука
 v_fot = document.querySelector("#pr_carfo"); //контейнер прогресс бара
 v_pc = document.querySelector("#pr_carvi"); //каретка прогресс бара
 
+
 if(v_pl){
 	v_pl.addEventListener('mouseenter', e => {_hover();});
 	v_pl.addEventListener('mouseleave', e => {_dehover();});
@@ -50,18 +51,37 @@ function _player(){//постсроение плеера
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
 	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' style='padding:0px;margin:0px;margin-top:-80px;position:absolute;display:none;width:700px;'><div style='margin:0px 10px;'><div id='pr_bar' style='height:30px;width:100%;'><div style='padding:6px 6px;'><div style='padding-top:6px;position:relative;'><div style='width:100%;height:2px;background:linear-gradient(to right, red 1%, white 0%);' id='pr_carfo'></div><div style='width:12px;height:12px;background-color:#fff;border-radius:16px;margin:-7px 0px;left:0px;position:absolute;' id='pr_carvi'></div></div></div></div><div style='padding:0px;margin:0px;display:flex;height:30px;width:100%;flex-wrap:wrap;'><div style='width:50%;display:flex;justify-content:flex-start;'><div id='pl_ps' style='height:30px;width:30px;'><img style='width:25px;padding:2px 4px;' src='ico/play1.png'></div><div id='pl_voi' style='height:30px;width:40px;'><img style='width:25px;padding:3px 8px;' src='ico/volume1.png'></div><div id='pl_voj' style='height:30px;width:110px;display:none;padding:10px;'><div style='position:relative;margin:4px 0px;'><div style='height:2px;width:100px;background-color:#fff;' id='pl_vok'></div><div style='width:12px;height:12px;background-color:#fff;position:absolute;margin:-7px 0px;border-radius:9px;left:88px;' id='carage'></div></div></div><div id='tm_code' style='height:30px;width:110px;'><div style='padding:6px 4px;color:#fff;font-weight:600;'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div style='width:50%;display:flex;justify-content:flex-end;'><div id='tm_full' style='height:30px;width:45px;'><div><img style='width:25px;padding:3px 10px;' src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
 }
+function _option(){
+	//размер контролов круглых
+	dp_control = 12; //получить размер а не написать
+	//половина контролов
+	dp2_control = dp_control / 2; //6
+	
+}
 
 function _hover(){ //отображаем худ плеера
+	_option();
 	v_hu.style.display = 'block';
+	//отступ полоски прогресса от края
+	prog_otX = getCoords(v_fot); //24px
+	console.log(prog_otX);
+	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы
+	console.log(vaLength);
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
-	setTimeout(function back(){v_hu.style.display = 'none';}, 4000);
+	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000); //таймер наверх
 }
 function _volplus(){ //отображаем худ плеера
+	_option();
 	v_olus.style.display = 'block';
+	//отступ полоски звука от края
+	prom_otX = getCoords(v_oluk); //98px
+	//console.log(prom_otX);
+	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы
+	console.log(vaLength);
 }
 function _volmin(){//скрываем худ плеера через 2 секунды
-	setTimeout(function func(){v_olus.style.display = 'none';}, 200);
+	//setTimeout(function func(){v_olus.style.display = 'none';}, 200);//таймер наверх
 }
 function _play(){//
 	cn_pl = v_play.classList.toggle('play');
@@ -119,7 +139,7 @@ function volumeVisFix(e){ //заканчиваем двигать ползуно
 function videoProgress(){ //Отображаем время воспроизведения
 	var tempVal = (v_vid.currentTime*656)/v_vid.duration;
 	v_pc.style.left = tempVal +'px'; //
-	var progba = ((tempVal.toFixed(1) + 6)*100/656).toFixed(1);
+	var progba = ((tempVal.toFixed(1) + dp2_control)*100/656).toFixed(1);
 	//надо добавить if чтобы не выходила каретка за пределы линии и плюс в конце, если достигнут конец, то останавливать видео и менять иконку и состояние плеера на паузу
 	v_cime.innerHTML = videoTime(v_vid.currentTime);
 	v_fot.style.background = 'linear-gradient(to right, red '+progba+'%, white 0%)';
@@ -127,7 +147,7 @@ function videoProgress(){ //Отображаем время воспроизве
 function videoChangeTime(e){ //Перематываем
 	var mouseX = Math.floor(e.pageX - 30);
 	v_vid.currentTime = v_vid.duration * (mouseX / 656);
-	var progbe = ((mouseX+6)*100) / 656;
+	var progbe = ((mouseX+dp2_control)*100) / 656;
 	var dn_pl = v_play.classList.contains('play');
 	if(!dn_pl){
 		v_play.classList.add('play');
@@ -142,9 +162,9 @@ function videoChangeVolum(e){ //Перематываем звук
 	var volume = Math.round(vavol) / 100;
 	v_vid.volume = volume;
 	//cдвинуть карретку
-	v_pols.style.left = (mouseDX-6)+'px';
+	v_pols.style.left = (mouseDX-dp2_control)+'px';
 }
-function videoTime(time) { //Рассчитываем время в секундах и минутах
+function videoTime(time){ //Рассчитываем время в секундах и минутах
 	time = Math.floor(time);
 	var minutes = Math.floor(time / 60);
 	var seconds = Math.floor(time - minutes * 60);
@@ -157,5 +177,16 @@ function videoTime(time) { //Рассчитываем время в секунд
 	secondsVal = '0' + seconds;
 	}
 	return minutesVal + ':' + secondsVal;
+}
+function getCoords(elem){
+  var box = elem.getBoundingClientRect();
+  console.log(box.left);
+  /*return {
+    top: box.top, //+ pageYOffset
+    left: box.left //+ pageXOffset
+  };*/
+  mass = [box.left, box.right];
+  return mass;
+
 }
 });
