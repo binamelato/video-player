@@ -8,6 +8,7 @@ vi_drag = false;
 v_pl = document.querySelector(v_spot);//container player
 _player();
 
+
 v_vid = document.querySelector(".vplayer"); //player
 v_hu = document.querySelector("#v_hud"); //hud
 v_play = document.querySelector("#pl_ps"); //button play
@@ -54,7 +55,7 @@ function _player(){//постсроение плеера
 function _option(){
 	//размер контролов круглых
 	dp_control = 12; //получить размер а не написать
-	//половина контролов
+	//радиус контролов
 	dp2_control = dp_control / 2; //6
 	
 }
@@ -64,9 +65,8 @@ function _hover(){ //отображаем худ плеера
 	v_hu.style.display = 'block';
 	//отступ полоски прогресса от края
 	prog_otX = getCoords(v_fot); //24px
-	console.log(prog_otX);
-	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы
-	console.log(vaLength);
+	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы 656
+	//console.log(vaLength);
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
 	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000); //таймер наверх
@@ -76,9 +76,9 @@ function _volplus(){ //отображаем худ плеера
 	v_olus.style.display = 'block';
 	//отступ полоски звука от края
 	prom_otX = getCoords(v_oluk); //98px
-	//console.log(prom_otX);
-	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы
-	console.log(vaLength);
+	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы 88
+	console.log(prom_otX[1]);
+	console.log(veLength);
 }
 function _volmin(){//скрываем худ плеера через 2 секунды
 	//setTimeout(function func(){v_olus.style.display = 'none';}, 200);//таймер наверх
@@ -92,38 +92,33 @@ function _play(){//
 		var check_im = v_play.querySelector('img').setAttribute('src','ico/play1.png');
 		v_vid.pause();
 	}
+	/*
 	if(v_time.innerHTML == '00:00'){//надо найти способ получать длительность при загрузке страницы
 		v_time.innerHTML = videoTime(v_vid.duration); 
-	}
+	}*/
 }
 function _fullhd(){//
 	cn_fm = v_hd.classList.toggle('full');
 	if(cn_fm){
 		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen2.png');
+		_fullscreen();
 	}else{
 		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen1.png');
+		_endfullscreen();
 	}
-	//разворачиваем экран на весь экран
-	
-	
 }
 function volumeVisMove(e){
 	if(!vi_drag){
 		return;
 	}else{
-		/*
-		проблема в том, что сейчас плеер находится с краю, но стоит его сдвинуть в сторону, то весь отсчет, т.е. cordx пойдет по одному месту. А значит, координаты центра надо высчитывать, относительно края страницы.
-		отсюда 
-		104 - высчитываем координату начала полоски звука
-		192 - высчитываем конец полоски звука это начало + 88рх, т.е. длинна звуковой полоски
-		*/
-		cordx = 192;
+		cordx = prom_otX[1] - dp2_control; //192
+		ncordx = prom_otX[0] + dp2_control; //104
 		nowCord = e.pageX;
-		if(nowCord>=104 && nowCord<=192){
-			bat = 88 - (cordx - nowCord);
+		if(nowCord>=ncordx && nowCord<=cordx){
+			bat = veLength - (cordx - nowCord);
 			v_pols.style.left = bat+'px';
 			//меняем звук
-			valvol = (bat*100)/88;
+			valvol = (bat*100)/veLength;
 			var volume = Math.round(valvol) / 100;
 			v_vid.volume = volume;
 			//console.log(volume);
@@ -137,17 +132,20 @@ function volumeVisFix(e){ //заканчиваем двигать ползуно
 	vi_drag = false;
 }
 function videoProgress(){ //Отображаем время воспроизведения
-	var tempVal = (v_vid.currentTime*656)/v_vid.duration;
+	var tempVal = (v_vid.currentTime*vaLength)/v_vid.duration;
+	if(tempVal.toFixed(0) == vaLength){
+		var check_im = v_play.querySelector('img').setAttribute('src','ico/play1.png');
+		v_vid.pause();
+	}
 	v_pc.style.left = tempVal +'px'; //
-	var progba = ((tempVal.toFixed(1) + dp2_control)*100/656).toFixed(1);
-	//надо добавить if чтобы не выходила каретка за пределы линии и плюс в конце, если достигнут конец, то останавливать видео и менять иконку и состояние плеера на паузу
+	var progba = ((tempVal.toFixed(1) + dp2_control)*100/vaLength).toFixed(1);
 	v_cime.innerHTML = videoTime(v_vid.currentTime);
 	v_fot.style.background = 'linear-gradient(to right, red '+progba+'%, white 0%)';
 }
 function videoChangeTime(e){ //Перематываем
-	var mouseX = Math.floor(e.pageX - 30);
-	v_vid.currentTime = v_vid.duration * (mouseX / 656);
-	var progbe = ((mouseX+dp2_control)*100) / 656;
+	var mouseX = Math.floor(e.pageX - prog_otX[0]);
+	v_vid.currentTime = v_vid.duration * (mouseX / vaLength);
+	var progbe = ((mouseX+dp2_control)*100) / vaLength;
 	var dn_pl = v_play.classList.contains('play');
 	if(!dn_pl){
 		v_play.classList.add('play');
@@ -155,14 +153,39 @@ function videoChangeTime(e){ //Перематываем
 	var check_im = v_play.querySelector('img').setAttribute('src','ico/pause1.png');
 	v_fot.style.background = 'linear-gradient(to right, red '+progbe.toFixed(1)+'%, white 0%)';
 	v_vid.play();
+	//надо при загрузке страницы прогружать общее время ролика, иначе если при загрущке сразу перемотать общее время нету
 }
 function videoChangeVolum(e){ //Перематываем звук
-	var mouseDX = Math.floor(e.pageX - 98);
-	vavol = (mouseDX*100)/88;
+	var mouseDX = Math.floor(e.pageX - prom_otX[0]);
+	vavol = (mouseDX*100)/veLength;
 	var volume = Math.round(vavol) / 100;
 	v_vid.volume = volume;
 	//cдвинуть карретку
 	v_pols.style.left = (mouseDX-dp2_control)+'px';
+}
+function _fullscreen(){
+	  if (v_pl.requestFullscreen) {
+		v_pl.requestFullscreen();
+	  } else if (v_pl.mozRequestFullScreen) {
+		v_pl.mozRequestFullScreen();
+	  } else if (v_pl.webkitRequestFullscreen) {
+		v_pl.webkitRequestFullscreen();
+	  } else if (v_pl.msRequestFullscreen) {
+		v_pl.msRequestFullscreen();
+	  } else { v_pl.classList.toggle("fullscreen");
+	  }
+}
+function _endfullscreen(){
+	  if (document._endfullscreen) {
+		document._endfullscreen();
+	  } else if (document.mozCancelFullScreen) {
+		document.mozCancelFullScreen();
+	  } else if (document.webkitExitFullscreen) {
+		document.webkitExitFullscreen();
+	  }
+}
+function reloadPlayer(){//переопределяем данные о плеере в full экран режиме
+
 }
 function videoTime(time){ //Рассчитываем время в секундах и минутах
 	time = Math.floor(time);
@@ -180,13 +203,7 @@ function videoTime(time){ //Рассчитываем время в секунд�
 }
 function getCoords(elem){
   var box = elem.getBoundingClientRect();
-  console.log(box.left);
-  /*return {
-    top: box.top, //+ pageYOffset
-    left: box.left //+ pageXOffset
-  };*/
   mass = [box.left, box.right];
   return mass;
-
 }
 });
