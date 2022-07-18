@@ -26,6 +26,7 @@ v_pc = document.querySelector("#pr_carvi"); //каретка прогресс б
 if(v_pl){
 	v_pl.addEventListener('mouseenter', e => {_hover();});
 	v_pl.addEventListener('mouseleave', e => {_dehover();});
+	document.addEventListener('fullscreenchange', e => {keyPress(e);});
 }
 if(v_vid){
 	v_olum.addEventListener('click', e => {_volplus();});
@@ -41,7 +42,6 @@ if(v_vid){
 	v_pc.addEventListener('click',e => {volumeVisChange(e);});//karetka on
 }
 
-
 function _player(){//постсроение плеера
 	v_pl.innerHTML = "<video></video>";
 	v_cont = v_pl.querySelector('video');
@@ -50,35 +50,32 @@ function _player(){//постсроение плеера
 	v_cont.setAttribute("style", "width:100%;");
 	v_cont.setAttribute("class", "vplayer");
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
-	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' style='padding:0px;margin:0px;margin-top:-80px;position:absolute;display:none;width:700px;'><div style='margin:0px 10px;'><div id='pr_bar' style='height:30px;width:100%;'><div style='padding:6px 6px;'><div style='padding-top:6px;position:relative;'><div style='width:100%;height:2px;background:linear-gradient(to right, red 1%, white 0%);' id='pr_carfo'></div><div style='width:12px;height:12px;background-color:#fff;border-radius:16px;margin:-7px 0px;left:0px;position:absolute;' id='pr_carvi'></div></div></div></div><div style='padding:0px;margin:0px;display:flex;height:30px;width:100%;flex-wrap:wrap;'><div style='width:50%;display:flex;justify-content:flex-start;'><div id='pl_ps' style='height:30px;width:30px;'><img style='width:25px;padding:2px 4px;' src='ico/play1.png'></div><div id='pl_voi' style='height:30px;width:40px;'><img style='width:25px;padding:3px 8px;' src='ico/volume1.png'></div><div id='pl_voj' style='height:30px;width:110px;display:none;padding:10px;'><div style='position:relative;margin:4px 0px;'><div style='height:2px;width:100px;background-color:#fff;' id='pl_vok'></div><div style='width:12px;height:12px;background-color:#fff;position:absolute;margin:-7px 0px;border-radius:9px;left:88px;' id='carage'></div></div></div><div id='tm_code' style='height:30px;width:110px;'><div style='padding:6px 4px;color:#fff;font-weight:600;'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div style='width:50%;display:flex;justify-content:flex-end;'><div id='tm_full' style='height:30px;width:45px;'><div><img style='width:25px;padding:3px 10px;' src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
+	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><img src='ico/volume1.png'></div><div id='pl_voj'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
 }
 function _option(){
 	//размер контролов круглых
 	dp_control = 12; //получить размер а не написать
 	//радиус контролов
 	dp2_control = dp_control / 2; //6
-	
+	prog_otX = getCoords(v_fot); //24px
+	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы 656
+	prom_otX = getCoords(v_oluk); //98px
+	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы 88
 }
 
 function _hover(){ //отображаем худ плеера
-	_option();
 	v_hu.style.display = 'block';
-	//отступ полоски прогресса от края
-	prog_otX = getCoords(v_fot); //24px
-	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы 656
-	//console.log(vaLength);
+	_option();
+	if(v_time.innerHTML == '00:00'){
+		v_time.innerHTML = videoTime(v_vid.duration); 
+	}
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
 	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000); //таймер наверх
 }
-function _volplus(){ //отображаем худ плеера
-	_option();
+function _volplus(){ //отображаем полосу звука
 	v_olus.style.display = 'block';
-	//отступ полоски звука от края
-	prom_otX = getCoords(v_oluk); //98px
-	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы 88
-	console.log(prom_otX[1]);
-	console.log(veLength);
+	_option();
 }
 function _volmin(){//скрываем худ плеера через 2 секунды
 	//setTimeout(function func(){v_olus.style.display = 'none';}, 200);//таймер наверх
@@ -92,12 +89,9 @@ function _play(){//
 		var check_im = v_play.querySelector('img').setAttribute('src','ico/play1.png');
 		v_vid.pause();
 	}
-	/*
-	if(v_time.innerHTML == '00:00'){//надо найти способ получать длительность при загрузке страницы
-		v_time.innerHTML = videoTime(v_vid.duration); 
-	}*/
 }
-function _fullhd(){//
+function _fullhd(){
+	// При изменении фулл экран / нет, надо редактировать положение карретки
 	cn_fm = v_hd.classList.toggle('full');
 	if(cn_fm){
 		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen2.png');
@@ -132,6 +126,7 @@ function volumeVisFix(e){ //заканчиваем двигать ползуно
 	vi_drag = false;
 }
 function videoProgress(){ //Отображаем время воспроизведения
+	_option();
 	var tempVal = (v_vid.currentTime*vaLength)/v_vid.duration;
 	if(tempVal.toFixed(0) == vaLength){
 		var check_im = v_play.querySelector('img').setAttribute('src','ico/play1.png');
@@ -143,6 +138,7 @@ function videoProgress(){ //Отображаем время воспроизве
 	v_fot.style.background = 'linear-gradient(to right, red '+progba+'%, white 0%)';
 }
 function videoChangeTime(e){ //Перематываем
+	_option();
 	var mouseX = Math.floor(e.pageX - prog_otX[0]);
 	v_vid.currentTime = v_vid.duration * (mouseX / vaLength);
 	var progbe = ((mouseX+dp2_control)*100) / vaLength;
@@ -153,7 +149,6 @@ function videoChangeTime(e){ //Перематываем
 	var check_im = v_play.querySelector('img').setAttribute('src','ico/pause1.png');
 	v_fot.style.background = 'linear-gradient(to right, red '+progbe.toFixed(1)+'%, white 0%)';
 	v_vid.play();
-	//надо при загрузке страницы прогружать общее время ролика, иначе если при загрущке сразу перемотать общее время нету
 }
 function videoChangeVolum(e){ //Перематываем звук
 	var mouseDX = Math.floor(e.pageX - prom_otX[0]);
@@ -174,6 +169,7 @@ function _fullscreen(){
 		v_pl.msRequestFullscreen();
 	  } else { v_pl.classList.toggle("fullscreen");
 	  }
+	  videoProgress();
 }
 function _endfullscreen(){
 	  if (document._endfullscreen) {
@@ -183,9 +179,17 @@ function _endfullscreen(){
 	  } else if (document.webkitExitFullscreen) {
 		document.webkitExitFullscreen();
 	  }
+	  videoProgress(); 
+	
 }
-function reloadPlayer(){//переопределяем данные о плеере в full экран режиме
-
+function keyPress(e){
+	//_option();
+	var tipe = e;
+	console.log('full window mode');//detected
+    if(e.code === "Escape"){
+		console.log('lalalalalalala');
+		_endfullscreen();
+    }
 }
 function videoTime(time){ //Рассчитываем время в секундах и минутах
 	time = Math.floor(time);

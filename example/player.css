@@ -1,0 +1,25 @@
+#v_hud{padding:0px;margin:0px;margin-top:-80px;position:absolute;display:none;width:700px;}
+#pr_bar{height:30px;width:100%;}
+#pr_carfo{width:100%;height:2px;background:linear-gradient(to right, red 1%, white 0%);}
+#pr_carvi{width:12px;height:12px;background-color:#fff;border-radius:16px;margin:-7px 0px;left:0px;position:absolute;}
+#pl_ps{height:30px;width:30px;}
+#pl_ps img{width:25px;padding:2px 4px;}
+#pl_voi{height:30px;width:40px;}
+#pl_voi img{width:25px;padding:3px 8px;}
+#pl_voj{height:30px;width:110px;display:none;padding:10px;}
+#pl_vok{height:2px;width:100px;background-color:#fff;}
+#carage{width:12px;height:12px;background-color:#fff;position:absolute;margin:-7px 0px;border-radius:9px;left:88px;}
+#tm_code{height:30px;width:110px;}
+#tm_full{height:30px;width:45px;}
+#ftsc img{width:25px;padding:3px 10px;}
+#vvayer:fullscreen #v_hud{width:100%;}
+
+.kn{margin:0px 10px;}
+.bz{padding:6px 6px;}
+.vt{padding-top:6px;position:relative;}
+.kx{padding:0px;margin:0px;display:flex;height:30px;width:100%;flex-wrap:wrap;}
+.rt{width:50%;display:flex;justify-content:flex-start;}
+.lx{position:relative;margin:4px 0px;}
+.tc{padding:6px 4px;color:#fff;font-weight:600;}
+.ss{width:50%;display:flex;justify-content:flex-end;}
+
