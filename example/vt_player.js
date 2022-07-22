@@ -26,8 +26,8 @@ v_pc = document.querySelector("#pr_carvi"); //каретка прогресс б
 
 
 if(v_pl){
-	v_hu.addEventListener('mouseenter', e => {_hover();});
-	v_hu.addEventListener('mouseleave', e => {_dehover();});
+	v_pl.addEventListener('mouseenter', e => {_hover();});
+	v_pl.addEventListener('mouseleave', e => {_dehover();});
 	document.addEventListener('fullscreenchange', e => {keyPress(e);});
 	//v_pl.addEventListener('click', e => {_play();});
 }
