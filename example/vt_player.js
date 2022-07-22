@@ -12,6 +12,7 @@ _player();
 
 v_vid = document.querySelector(".vplayer"); //player
 v_hu = document.querySelector("#v_hud"); //hud
+v_kn = document.querySelector(".kn"); //hud
 v_play = document.querySelector("#pl_ps"); //button play
 v_olum = document.querySelector("#pl_voi"); //button volume
 v_olus = document.querySelector("#pl_voj"); //dop forma volume
@@ -25,9 +26,10 @@ v_pc = document.querySelector("#pr_carvi"); //каретка прогресс б
 
 
 if(v_pl){
-	v_pl.addEventListener('mouseenter', e => {_hover();});
-	v_pl.addEventListener('mouseleave', e => {_dehover();});
+	v_hu.addEventListener('mouseenter', e => {_hover();});
+	v_hu.addEventListener('mouseleave', e => {_dehover();});
 	document.addEventListener('fullscreenchange', e => {keyPress(e);});
+	//v_pl.addEventListener('click', e => {_play();});
 }
 if(v_vid){
 	v_olum.addEventListener('click', e => {_volplus();});
@@ -65,7 +67,7 @@ function _option(){
 }
 
 function _hover(){ //отображаем худ плеера
-	v_hu.style.display = 'block';
+	v_kn.style.display = 'block';
 	_option();
 	if(v_time.innerHTML == '00:00'){ //NaN:NaN
 		v_time.innerHTML = videoTime(v_vid.duration); 
@@ -73,14 +75,14 @@ function _hover(){ //отображаем худ плеера
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
 	//нужно проверять на любую активность курсора, если ее нет запускать таймер
-	setTimeout(function back(){v_hu.style.display = 'none';}, 4000); //таймер наверх
+	setTimeout(function back(){v_kn.style.display = 'none';}, 5000); //таймер наверх
 }
 function _volplus(){ //отображаем полосу звука
 	v_olus.style.display = 'block';
 	_option();
 }
 function _volmin(){//скрываем худ плеера через 2 секунды
-	setTimeout(function func(){v_olus.style.display = 'none';}, 200);//таймер наверх
+	setTimeout(function func(){v_olus.style.display = 'none';}, 1000);//таймер наверх
 }
 function _play(){
 	cn_pl = v_play.classList.toggle('play');
@@ -152,8 +154,8 @@ function videoChangeTime(e){ //Перематываем
 }
 function videoChangeVolum(e){ //Перематываем звук
 	var mouseDX = Math.floor(e.pageX - prom_otX[0]);
-	var volume = Math.round(vavol) / 100;
 	vavol = (mouseDX*100)/veLength;
+	var volume = Math.round(vavol) / 100;
 	v_vid.volume = volume;
 	v_pols.style.left = (mouseDX-dp2_control)+'px';
 }
