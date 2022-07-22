@@ -29,7 +29,7 @@ if(v_pl){
 	v_pl.addEventListener('mouseenter', e => {_hover();});
 	v_pl.addEventListener('mouseleave', e => {_dehover();});
 	document.addEventListener('fullscreenchange', e => {keyPress(e);});
-	//v_pl.addEventListener('click', e => {_play();});
+	//v_pl.addEventListener('click', e => {_play();});//иконка в центре плеера, мб
 }
 if(v_vid){
 	v_olum.addEventListener('click', e => {_volplus();});
