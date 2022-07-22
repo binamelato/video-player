@@ -8,6 +8,12 @@ vi_drag = false;
 v_pl = document.querySelector(v_spot);//container player
 _player();
 
+/* не робит
+window.addEventListener('keydown', (e) => {
+  if(e.keyCode == 27) {
+    e.preventDefault();
+  }
+});*/
 
 v_vid = document.querySelector(".vplayer"); //player
 v_hu = document.querySelector("#v_hud"); //hud
@@ -61,6 +67,8 @@ function _option(){
 	vaLength = prog_otX[1] - prog_otX[0] - dp_control; //длинна полосы 656
 	prom_otX = getCoords(v_oluk); //98px
 	veLength = prom_otX[1] - prom_otX[0] - dp_control; //длинна полосы 88
+	//console.log(vaLength); //верная длинна
+	//console.log(veLength); //верная длинна
 }
 
 function _hover(){ //отображаем худ плеера
@@ -69,6 +77,10 @@ function _hover(){ //отображаем худ плеера
 	if(v_time.innerHTML == '00:00'){
 		v_time.innerHTML = videoTime(v_vid.duration); 
 	}
+	//баг, если обновление страницы было,а курсор уже был на плеере, то счетчик показывает nan:nan
+	/*setTimeout(function tik(){
+		v_time.innerHTML = videoTime(v_vid.duration);
+	}, 100);*/
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
 	//setTimeout(function back(){v_hu.style.display = 'none';}, 4000); //таймер наверх
@@ -170,6 +182,17 @@ function _fullscreen(){
 	  } else { v_pl.classList.toggle("fullscreen");
 	  }
 	  videoProgress();
+	  
+	  /*
+	  function (o) {
+			try {
+				(o.requestFullscreen || o.webkitrequestFullscreen || mozRequestFullscreen)();
+			} catch(e) {}
+		}
+		
+		можно и без try/catch
+		(o.requestFullscreen ||… || function () {}) ()
+	  */
 }
 function _endfullscreen(){
 	  if (document._endfullscreen) {
@@ -183,13 +206,19 @@ function _endfullscreen(){
 	
 }
 function keyPress(e){
-	//_option();
+	_option();
 	var tipe = e;
+	//корректировка карретки нужна тут
+	var tempVal = (v_vid.currentTime*vaLength)/v_vid.duration;
+	v_pc.style.left = tempVal +'px'; //
 	console.log('full window mode');//detected
-    if(e.code === "Escape"){
+	console.log(e);//detected
+   // if(e.code === "Escape"){ 
+    if(!v_pl.fullscreenEnabled){ //не робит проверка на актив фулл скрин
 		console.log('lalalalalalala');
-		_endfullscreen();
-    }
+    }else{
+		console.log('трахаться !');
+	}
 }
 function videoTime(time){ //Рассчитываем время в секундах и минутах
 	time = Math.floor(time);
@@ -208,6 +237,7 @@ function videoTime(time){ //Рассчитываем время в секунд�
 function getCoords(elem){
   var box = elem.getBoundingClientRect();
   mass = [box.left, box.right];
+  //console.log(mass);//координаты верные
   return mass;
 }
 });
