@@ -26,7 +26,7 @@ v_pc = document.querySelector("#pr_carvi"); //каретка прогресс б
 
 
 if(v_pl){
-	v_pl.addEventListener('mouseenter', e => {_hover();});
+	v_pl.addEventListener('mouseenter', e => {_hover();}); 
 	v_pl.addEventListener('mouseleave', e => {_dehover();});
 	document.addEventListener('fullscreenchange', e => {keyPress(e);});
 	//v_pl.addEventListener('click', e => {_play();});//иконка в центре плеера, мб
@@ -40,12 +40,12 @@ if(v_vid){
 	v_vid.addEventListener('timeupdate',videoProgress);
 	v_fot.addEventListener('click',videoChangeTime);
 	v_oluk.addEventListener('click', e => {videoChangeVolum(e);});//change vol by click
-	v_pols.addEventListener('mousedown',e => {volumeVisChange(e);});//slide volume on
-	document.addEventListener('mouseup',e => {volumeVisFix(e);});//slide volume off
-	v_pc.addEventListener('click',e => {volumeVisChange(e);});//karetka on
+	v_pols.addEventListener('mousedown', e => {volumeVisChange(e);});//slide volume on
+	document.addEventListener('mouseup', e => {volumeVisFix(e);});//slide volume off
+	v_pc.addEventListener('click', e => {volumeVisChange(e);});//karetka on
 }
 
-function _player(){//постсроение плеера
+function _player(){	//постсроение плеера
 	v_pl.innerHTML = "<video></video>";
 	v_cont = v_pl.querySelector('video');
 	v_cont.setAttribute("preload", "metadata");//предзагрузка видео
@@ -171,16 +171,6 @@ function _fullscreen(){
 	}else{v_pl.classList.toggle("fullscreen");
 	}
 	videoProgress();
-	/*
-	  function (o) {
-			try {
-				(o.requestFullscreen || o.webkitrequestFullscreen || mozRequestFullscreen)();
-			} catch(e) {}
-		}
-		
-		можно и без try/catch
-		(o.requestFullscreen ||… || function () {}) ()
-	*/
 }
 function _endfullscreen(){
 	if (document._endfullscreen) {
