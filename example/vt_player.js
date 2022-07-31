@@ -82,7 +82,7 @@ function _volplus(){ //отображаем полосу звука
 	_option();
 }
 function _volmin(){//скрываем худ плеера через 2 секунды
-	setTimeout(function func(){v_olus.style.display = 'none';}, 1000);//таймер наверх
+	setTimeout(function func(){v_olus.style.display = 'none';}, 2000);//таймер наверх
 }
 function _play(){
 	cn_pl = v_play.classList.toggle('play');
