@@ -1,4 +1,7 @@
 # Video Player
+![ice_screenshot_20220731-215502](https://user-images.githubusercontent.com/22084187/182041485-883af248-6ba4-4a51-9d33-1958a4f0ffde.png)
+
+
 This is my simple video player for a website in vanilla javascript, without using third-party plugins.
 
 ## How to use:
@@ -37,7 +40,8 @@ v_form = vt_player[0]; //format trailer
 v_tral = vt_player[1]; //trailer identificator
 ```
 
-***6. Шf you need help, see the example***
-
+***6. If you need help, see the example***
 
 ## Preview
+![ice_screenshot_20220731-215627](https://user-images.githubusercontent.com/22084187/182041476-a52532b9-71ca-41c6-b349-58c6790513ee.png)
+
