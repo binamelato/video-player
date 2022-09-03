@@ -26,7 +26,7 @@ v_pc = document.querySelector("#pr_carvi"); //каретка прогресс б
 
 
 if(v_pl){
-	v_pl.addEventListener('mouseenter', e => {_hover();}); 
+	v_pl.addEventListener('mousemove', e => {_hover();}); 
 	v_pl.addEventListener('mouseleave', e => {_dehover();});
 	document.addEventListener('fullscreenchange', e => {keyPress(e);});
 	//v_pl.addEventListener('click', e => {_play();});//иконка в центре плеера, мб
@@ -71,6 +71,8 @@ function _hover(){ //отображаем худ плеера
 	_option();
 	if(v_time.innerHTML == '00:00'){ //NaN:NaN
 		v_time.innerHTML = videoTime(v_vid.duration); 
+	}else{
+		v_time.innerHTML = videoTime(v_vid.duration);
 	}
 }
 function _dehover(){//скрываем худ плеера через 4 секунды
