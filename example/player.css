@@ -18,7 +18,7 @@
 #vvayer{position:relative;}
 #vvayer:fullscreen #v_hud{width:100%;}
 #v_annon{display:none;}
-#v_annon div{padding:10px;font-family:"Roboto", "Arial", sans-serif;font-size:1.3rem;line-height:2.8rem;}
+#v_annon div{padding:10px;font-family:"Roboto", "Arial", sans-serif;font-size:1.3rem;}
 
 
 .kn{margin:0px 10px;height:65px;visibility:hidden;}

@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", function(event){ 
 //определяем переменные плеера
 v_spot = '#vvayer'; //id or class объекта в котором будет размещен плеер
-v_store = ''; //path to trailer hranilische
-v_name = ''; //name a video
-v_desc = ''; //description of video
+v_store = ''; //path to trailer folder
 v_form = vt_player[0]; //format trailer
 v_tral = vt_player[1]; //trailer identificator
+v_name = vt_player[2]; //video name
+v_width = vt_player[3]; //size player container
 vi_drag = false;
-vi_width = 700; //size player container
 v_pl = document.querySelector(v_spot);//container player
 //_player();
 
@@ -31,7 +30,7 @@ v_nm = document.querySelector("#v_name"); //name video
 
 
 if(v_pl){
-	v_pl.setAttribute("style","width:"+vi_width+"px;");
+	v_pl.setAttribute("style","width:"+v_width+"px;");
 	v_hu.addEventListener('mouseover', e => {_hover();}); 
 	v_hu.addEventListener('mouseout', e => {_dehover();});
 	v_head.addEventListener('mouseover', e => {_hover();}); 
@@ -50,6 +49,8 @@ if(v_vid){
 	v_pols.addEventListener('mousedown', e => {volumeVisChange(e);});//slide volume on
 	document.addEventListener('mouseup', e => {volumeVisFix(e);});//slide volume off
 	v_pc.addEventListener('click', e => {volumeVisChange(e);});//karetka on
+
+	v_nm.textContent = v_name; //for test
 }
 
 function _player(){	//постсроение плеера
@@ -60,7 +61,7 @@ function _player(){	//постсроение плеера
 	v_cont.setAttribute("style", "width:100%;");
 	v_cont.setAttribute("class", "vplayer");
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
-	v_nm.contentText(v_name);
+	//v_nm.innerText(v_name);
 	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><img src='ico/volume1.png'></div><div id='pl_voj'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
 }
 /*
@@ -227,9 +228,10 @@ function getCoords(elem){
 /*
 Задачи
 
-заменить код плеера на новый из index.html
-установка фокуса при клике в плеер. и только тогда чтобы срабатывала кнопка СпейсБар
-изменение иконки звука в зависимости от положения каретки звука.
-пересмотреть расчет времени. если есть часы то отображать как 00:00:00 в противном случае 00:00
+* заменить код плеера на новый из index.html
+* установка фокуса при клике в плеер. и только тогда чтобы срабатывала кнопка СпейсБар
+* изменение иконки звука в зависимости от положения каретки звука.
+* пересмотреть расчет времени. если есть часы то отображать как 00:00:00 в противном случае 00:00
+* задать максимальную длинну для названия.
 
 */
