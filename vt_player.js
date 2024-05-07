@@ -8,7 +8,7 @@ v_name = vt_player[2]; //video name
 v_width = vt_player[3]; //size player container
 vi_drag = false;
 v_pl = document.querySelector(v_spot);//container player
-//_player();
+_player();
 
 v_zn = document.querySelector("#v_zone"); //player zone
 v_vid = document.querySelector(".vplayer"); //player
@@ -54,15 +54,15 @@ if(v_vid){
 }
 
 function _player(){	//постсроение плеера
-	v_pl.innerHTML = "<video></video>";
+	v_pl.innerHTML = "<div id='v_zone'><video></video></div>";
 	v_cont = v_pl.querySelector('video');
 	v_cont.setAttribute("preload", "metadata");//preload video
 	v_cont.setAttribute("autoplay","autoplay");//autorun video
 	v_cont.setAttribute("style", "width:100%;");
 	v_cont.setAttribute("class", "vplayer");
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
-	//v_nm.innerText(v_name);
-	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><img src='ico/volume1.png'></div><div id='pl_voj'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
+	v_pl.insertAdjacentHTML("afterbegin","<div id='v_head' class='zUp'><div id='v_annon' class='kh'><div id='v_name'></div></div></div>");
+	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' class='zUp'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><div id='pl_icon'><img src='ico/volume1.png'></div><div id='pl_carret'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
 }
 /*
 if (iz.keyCode == '32') {//if click on a Spacebar button on keyboard
