@@ -62,7 +62,7 @@ function _player(){	//постсроение плеера
 	v_cont.setAttribute("class", "vplayer");
 	v_cont.setAttribute("src", v_store+v_tral+"."+v_form);
 	v_pl.insertAdjacentHTML("afterbegin","<div id='v_head' class='zUp'><div id='v_annon' class='kh'><div id='v_name'></div></div></div>");
-	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' class='zUp'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><div id='pl_icon'><img src='ico/volume1.png'></div><div id='pl_carret'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/fullscreen1.png'></div></div></div></div></div></div>"); 
+	v_pl.insertAdjacentHTML("beforeend","<div id='v_hud' class='zUp'><div class='kn'><div id='pr_bar'><div class='bz'><div class='vt'><div id='pr_carfo'></div><div id='pr_carvi'></div></div></div></div><div class='kx'><div class='rt'><div id='pl_ps'><img src='ico/play1.png'></div><div id='pl_voi'><div id='pl_icon'><img src='ico/volume1.png'></div><div id='pl_carret'><div class='lx'><div id='pl_vok'></div><div id='carage'></div></div></div></div><div id='tm_code'><div class='tc'><span class='currTime'>00:00</span> / <span class='durationTime'>00:00</span></div></div></div><div class='ss'><div id='tm_full'><div id='ftsc'><img src='ico/ff.png'></div></div></div></div></div></div>"); 
 }
 /*
 if (iz.keyCode == '32') {//if click on a Spacebar button on keyboard
@@ -118,10 +118,10 @@ function _play(){
 function _fullhd(){
 	cn_fm = v_hd.classList.toggle('full');
 	if(cn_fm){
-		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen2.png');
+		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fs.png');
 		_fullscreen();
 	}else{
-		var check_im = v_hd.querySelector('img').setAttribute('src','ico/fullscreen1.png');
+		var check_im = v_hd.querySelector('img').setAttribute('src','ico/ff.png');
 		_endfullscreen();
 	}
 }
